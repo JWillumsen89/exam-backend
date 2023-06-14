@@ -1,5 +1,8 @@
 package dk.jwillum.exambackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @jakarta.persistence.Entity
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Event {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +49,7 @@ public class Event {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "location_id")
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   private Location location;
 
   public Event(int id, String name, LocalDate date, String description, int capacity, LocalDateTime created, LocalDateTime lastEdited) {
@@ -56,5 +60,13 @@ public class Event {
     this.capacity = capacity;
     this.created = created;
     this.lastEdited = lastEdited;
+  }
+
+  public Event(String name, LocalDate date, String description, int capacity, Location location) {
+    this.name = name;
+    this.date = date;
+    this.description = description;
+    this.capacity = capacity;
+    this.location = location;
   }
 }

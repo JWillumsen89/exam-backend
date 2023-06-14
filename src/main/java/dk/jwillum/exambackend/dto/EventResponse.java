@@ -2,6 +2,7 @@ package dk.jwillum.exambackend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import dk.jwillum.exambackend.entity.Event;
+import dk.jwillum.exambackend.entity.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class EventResponse {
   private LocalDate date;
   private String description;
   private int capacity;
+  private LocationResponse location;
   @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
   private LocalDateTime created;
   @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
@@ -30,6 +32,7 @@ public class EventResponse {
     this.date = e.getDate();
     this.description = e.getDescription();
     this.capacity = e.getCapacity();
+    this.location = new LocationResponse(e.getLocation(), includeAll);
     if (includeAll) {
       this.created = e.getCreated();
       this.lastEdited = e.getLastEdited();

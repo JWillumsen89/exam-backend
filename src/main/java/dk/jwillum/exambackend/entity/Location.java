@@ -1,5 +1,6 @@
 package dk.jwillum.exambackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @jakarta.persistence.Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Location {
 
   @Id
@@ -34,12 +36,15 @@ public class Location {
   @Column(name = "last_edited")
   @UpdateTimestamp
   private LocalDateTime lastEdited;
-
-  //TODO add relation to Event
-
+  //Is it really needed to be able to see a list of events at a certain location?
+/*
   @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-  private List<Event> events;
+  private List<Event> events;*/
 
+  public Location(String name, int capacity) {
+    this.name = name;
+    this.capacity = capacity;
+  }
 
   public Location(int id, String name, int capacity, LocalDateTime created, LocalDateTime lastEdited) {
     this.id = id;

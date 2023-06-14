@@ -1,6 +1,7 @@
 package dk.jwillum.exambackend.dto;
 
 import dk.jwillum.exambackend.entity.Event;
+import dk.jwillum.exambackend.entity.Location;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,11 +25,16 @@ public class EventRequest {
   private LocalDate date;
   private String description;
   private int capacity;
+  private Location location;
   private LocalDateTime created;
   private LocalDateTime lastEdited;
-
+/*
   public static Event getEventEntity(EventRequest er) {
     return new Event(er.id, er.name, er.date, er.description, er.capacity, er.created, er.lastEdited);
+  }*/
+
+  public static Event getEventEntity(EventRequest er) {
+    return new Event(er.name, er.date, er.description, er.capacity,er.location);
   }
 
   public EventRequest(int id, String name, LocalDate date, String description, int capacity, LocalDateTime created, LocalDateTime lastEdited) {
