@@ -38,7 +38,6 @@ public class EventAttendee {
   @JoinColumn(name = "event_id")
   private Event event;
 
-//Todo fix it
   public EventAttendee(int id, LocalDate registerDate, LocalDateTime created, LocalDateTime lastEdited) {
     this.id = id;
     this.registerDate = registerDate;
