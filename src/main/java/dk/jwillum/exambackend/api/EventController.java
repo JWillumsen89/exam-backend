@@ -42,19 +42,11 @@ public class EventController {
 
   @GetMapping("/name/{event}")
   List <EventResponse> findEventByName(@PathVariable String event) {
-    /*Make sure to create the URL i js like this, so that it handles spaces in the name:
-    let eventName = 'Event Name';
-  let url = '/' + encodeURIComponent(eventName);
-    * */
     return eventService.findEventByName(event, false);
   }
 
   @GetMapping("/partsofname/{event}")
   List <EventResponse> findEventByPartsOfName(@PathVariable String event) {
-    /*Make sure to create the URL i js like this, so that it handles spaces in the name:
-    let eventName = 'Event Name';
-  let url = '/' + encodeURIComponent(eventName);
-    * */
     return eventService.findEventByPartsOfName(event, false);
   }
 

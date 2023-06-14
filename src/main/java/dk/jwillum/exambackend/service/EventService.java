@@ -4,6 +4,7 @@ import dk.jwillum.exambackend.dto.EventRequest;
 import dk.jwillum.exambackend.dto.EventResponse;
 import dk.jwillum.exambackend.entity.Event;
 import dk.jwillum.exambackend.entity.Location;
+import dk.jwillum.exambackend.repository.EventAttendeeRepository;
 import dk.jwillum.exambackend.repository.EventRepository;
 import dk.jwillum.exambackend.repository.LocationRepository;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,12 @@ public class EventService {
   EventRepository eventRepository;
   LocationRepository locationRepository;
 
-  public EventService(EventRepository eventRepository, LocationRepository locationRepository) {
+  EventAttendeeRepository eventAttendeeRepository;
+
+  public EventService(EventRepository eventRepository, LocationRepository locationRepository, EventAttendeeRepository eventAttendeeRepository) {
     this.eventRepository = eventRepository;
     this.locationRepository = locationRepository;
+    this.eventAttendeeRepository = eventAttendeeRepository;
   }
 
   public EventResponse createEvent(EventRequest eventRequest) {
@@ -48,13 +52,17 @@ public class EventService {
   public EventResponse updateEvent(int id, EventRequest eventRequest) {
     Location location = locationRepository.findById(eventRequest.getLocation().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No location with that id"));
     Event event = eventRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No event found with ID: " + id));
-    event.setName(eventRequest.getName());
-    event.setDate(eventRequest.getDate());
-    event.setDescription(eventRequest.getDescription());
-    event.setCapacity(eventRequest.getCapacity());
-    event.setLocation(location);
-    eventRepository.save(event);
-    return new EventResponse(event, true, true);
+    if (eventRequest.getCapacity() > location.getCapacity()) {
+      throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Event capacity of " + eventRequest.getCapacity() + " exceeds location's capacity. Please select a location that can accommodate your event's size.");
+    } else {
+      event.setName(eventRequest.getName());
+      event.setDate(eventRequest.getDate());
+      event.setDescription(eventRequest.getDescription());
+      event.setCapacity(eventRequest.getCapacity());
+      event.setLocation(location);
+      eventRepository.save(event);
+      return new EventResponse(event, true, true);
+    }
   }
 
   public List<EventResponse> findEventByName(String eventName, boolean includeAll) {
@@ -80,10 +88,10 @@ public class EventService {
   public void deleteEvent(int id) {
     try {
       eventRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event with ID: " + id + " not found"));
+      eventAttendeeRepository.deleteByEventId(id);
       eventRepository.deleteById(id);
     } catch (Exception e) {
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to delete the event. Please try again later.");
     }
-
   }
 }

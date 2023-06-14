@@ -14,4 +14,5 @@ public interface EventAttendeeRepository extends JpaRepository<EventAttendee, In
 
   void deleteByAttendeeIdAndEventId(int attendeeId, int eventId);
 
+  void deleteByEventId(int id);
 }

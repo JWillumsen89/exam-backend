@@ -31,4 +31,9 @@ public class EventAttendeeController {
     return ResponseEntity.ok("Attendee with ID " + attendeeid + " has been removed from event with ID " + eventid);
   }
 
+  @GetMapping("/attendees/{id}")
+  Integer getNumberOfAttendees(@PathVariable int id) {
+    return eventAttendeeService.getNumberOfAttendeesForEvent(id);
+  }
+
 }
