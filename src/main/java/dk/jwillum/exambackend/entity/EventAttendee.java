@@ -45,4 +45,20 @@ public class EventAttendee {
     this.created = created;
     this.lastEdited = lastEdited;
   }
+
+  public EventAttendee(int id, LocalDate registerDate, Attendee attendee, Event event) {
+    this.id = id;
+    this.registerDate = registerDate;
+    this.attendee = attendee;
+    this.event = event;
+  }
+
+  public EventAttendee(int id, LocalDate registerDate, LocalDateTime created, LocalDateTime lastEdited, Attendee attendee, Event event) {
+    this.id = id;
+    this.registerDate = registerDate;
+    this.created = created;
+    this.lastEdited = lastEdited;
+    this.attendee = attendee;
+    this.event = event;
+  }
 }

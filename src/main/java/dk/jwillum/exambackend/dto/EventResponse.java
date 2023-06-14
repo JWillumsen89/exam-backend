@@ -26,13 +26,15 @@ public class EventResponse {
   @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
   private LocalDateTime lastEdited;
 
-  public EventResponse(Event e, boolean includeAll) {
+  public EventResponse(Event e, boolean includeAll, boolean includeLocation) {
     this.id = e.getId();
     this.name = e.getName();
     this.date = e.getDate();
     this.description = e.getDescription();
     this.capacity = e.getCapacity();
-    this.location = new LocationResponse(e.getLocation(), includeAll);
+    if (includeLocation) {
+      this.location = new LocationResponse(e.getLocation(), includeAll, false);
+    }
     if (includeAll) {
       this.created = e.getCreated();
       this.lastEdited = e.getLastEdited();

@@ -1,5 +1,7 @@
 package dk.jwillum.exambackend.dto;
 
+import dk.jwillum.exambackend.entity.Attendee;
+import dk.jwillum.exambackend.entity.Event;
 import dk.jwillum.exambackend.entity.EventAttendee;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,11 +17,13 @@ public class EventAttendeeRequest {
 
   private int id;
   private LocalDate registerDate;
+  private Attendee attendee;
+  private Event event;
   private LocalDateTime created;
   private LocalDateTime lastEdited;
 
   public static EventAttendee getEventAttendeeEntity(EventAttendeeRequest ear) {
-    return new EventAttendee(ear.id, ear.registerDate,ear.created,ear.lastEdited);
+    return new EventAttendee(ear.id, ear.registerDate,ear.created,ear.lastEdited,ear.attendee,ear.event);
   }
 
   public EventAttendeeRequest(int id, LocalDate registerDate, LocalDateTime created, LocalDateTime lastEdited) {

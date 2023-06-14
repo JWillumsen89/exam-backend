@@ -36,10 +36,9 @@ public class Location {
   @Column(name = "last_edited")
   @UpdateTimestamp
   private LocalDateTime lastEdited;
-  //Is it really needed to be able to see a list of events at a certain location?
-/*
+
   @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-  private List<Event> events;*/
+  private List<Event> events;
 
   public Location(String name, int capacity) {
     this.name = name;

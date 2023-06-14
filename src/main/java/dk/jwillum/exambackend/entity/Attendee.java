@@ -47,4 +47,10 @@ public class Attendee {
     this.created = created;
     this.lastEdited = lastEdited;
   }
+
+  public Attendee(String username, String email, String phoneNumber) {
+    this.username = username;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
+  }
 }

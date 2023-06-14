@@ -27,7 +27,7 @@ public class EventController {
   @GetMapping
   List<EventResponse> getAllEvents() {
     //Without admin details
-    return eventService.getAllEvents(false);
+    return eventService.getAllEvents(true);
   }
 
   @GetMapping("/{id}")

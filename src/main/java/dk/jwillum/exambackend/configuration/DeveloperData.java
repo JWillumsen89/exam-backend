@@ -32,6 +32,8 @@ public class DeveloperData implements ApplicationRunner {
   public void createLocations() {
     Location loc1 = new Location("Test Location 1", 500);
     locationRepository.save(loc1);
+    Location loc2 = new Location("Test Location 2", 1000);
+    locationRepository.save(loc2);
   }
 
   public void createEvent() {

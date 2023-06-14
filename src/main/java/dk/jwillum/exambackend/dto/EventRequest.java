@@ -28,10 +28,6 @@ public class EventRequest {
   private Location location;
   private LocalDateTime created;
   private LocalDateTime lastEdited;
-/*
-  public static Event getEventEntity(EventRequest er) {
-    return new Event(er.id, er.name, er.date, er.description, er.capacity, er.created, er.lastEdited);
-  }*/
 
   public static Event getEventEntity(EventRequest er) {
     return new Event(er.name, er.date, er.description, er.capacity,er.location);

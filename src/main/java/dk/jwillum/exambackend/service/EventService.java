@@ -26,31 +26,35 @@ public class EventService {
   }
 
   public EventResponse createEvent(EventRequest eventRequest) {
-    Location location = locationRepository.findById(eventRequest.getLocation().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No location with that id"));
-    eventRequest.setLocation(location);
-    Event newEvent = getEventEntity(eventRequest);
-    newEvent = eventRepository.save(newEvent);
-    return new EventResponse(newEvent, true);
+    Location location = locationRepository.findById(eventRequest.getLocation().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No location with ID: " + eventRequest.getLocation().getId()));
+    if (eventRequest.getCapacity() > location.getCapacity()) {
+      throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Event capacity of " + eventRequest.getCapacity() + " exceeds location's capacity. Please select a location that can accommodate your event's size.");
+    } else {
+      eventRequest.setLocation(location);
+      Event newEvent = getEventEntity(eventRequest);
+      newEvent = eventRepository.save(newEvent);
+      return new EventResponse(newEvent, true, true);
+    }
   }
 
   public List<EventResponse> getAllEvents(boolean includeAll) {
-    return eventRepository.findAll().stream().map(event -> new EventResponse(event, includeAll)).toList();
+    return eventRepository.findAll().stream().map(event -> new EventResponse(event, includeAll, true)).toList();
   }
 
   public EventResponse getEventById(int id, boolean includeAll) {
-    return eventRepository.findById(id).map(event -> new EventResponse(event, includeAll)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No event with that id"));
+    return eventRepository.findById(id).map(event -> new EventResponse(event, includeAll, true)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No event found with ID: " + id));
   }
 
   public EventResponse updateEvent(int id, EventRequest eventRequest) {
     Location location = locationRepository.findById(eventRequest.getLocation().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No location with that id"));
-    Event event = eventRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No event with that id"));
+    Event event = eventRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No event found with ID: " + id));
     event.setName(eventRequest.getName());
     event.setDate(eventRequest.getDate());
     event.setDescription(eventRequest.getDescription());
     event.setCapacity(eventRequest.getCapacity());
     event.setLocation(location);
     eventRepository.save(event);
-    return new EventResponse(event, true);
+    return new EventResponse(event, true, true);
   }
 
   public List<EventResponse> findEventByName(String eventName, boolean includeAll) {
@@ -58,7 +62,7 @@ public class EventService {
     if (events.size() == 0) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no events named: " + eventName);
     }
-    return events.stream().map(event -> new EventResponse(event, includeAll)).toList();
+    return events.stream().map(event -> new EventResponse(event, includeAll, true)).toList();
   }
 
   public List<EventResponse> findEventByPartsOfName(String event, boolean includeAll) {
@@ -69,7 +73,7 @@ public class EventService {
           HttpStatus.NOT_FOUND, "There are no events with a name containing: " + event);
     }
 
-    return events.stream().map(evt -> new EventResponse(evt, includeAll)).collect(Collectors.toList());
+    return events.stream().map(evt -> new EventResponse(evt, includeAll, true)).collect(Collectors.toList());
 
   }
 

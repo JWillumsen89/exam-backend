@@ -20,6 +20,8 @@ public class EventAttendeeResponse {
 
   private int id;
   private LocalDate registerDate;
+  private AttendeeResponse attendeeResponse;
+  private EventResponse eventResponse;
   @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
   private LocalDateTime created;
   @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
@@ -28,6 +30,8 @@ public class EventAttendeeResponse {
   public EventAttendeeResponse(EventAttendee ea, boolean includeAll) {
     this.id = ea.getId();
     this.registerDate = ea.getRegisterDate();
+    this.attendeeResponse = new AttendeeResponse(ea.getAttendee(),true);
+    this.eventResponse = new EventResponse(ea.getEvent(),true,true);
     if (includeAll) {
       this.created = ea.getCreated();
       this.lastEdited = ea.getLastEdited();
