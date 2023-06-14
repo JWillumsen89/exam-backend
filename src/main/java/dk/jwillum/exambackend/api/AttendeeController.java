@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-//TODO Change app to name
-@RequestMapping("api/app")
-public class Controller {
+@RequestMapping("api/attendees")
+public class AttendeeController {
 }
