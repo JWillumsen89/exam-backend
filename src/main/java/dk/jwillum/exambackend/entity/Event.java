@@ -69,4 +69,5 @@ public class Event {
     this.capacity = capacity;
     this.location = location;
   }
+
 }

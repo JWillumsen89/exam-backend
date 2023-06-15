@@ -2,15 +2,9 @@ package dk.jwillum.exambackend.dto;
 
 import dk.jwillum.exambackend.entity.Event;
 import dk.jwillum.exambackend.entity.Location;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -41,6 +35,14 @@ public class EventRequest {
     this.capacity = capacity;
     this.created = created;
     this.lastEdited = lastEdited;
+  }
+
+  public EventRequest(String name, LocalDate date, String description, int capacity, Location location) {
+    this.name = name;
+    this.date = date;
+    this.description = description;
+    this.capacity = capacity;
+    this.location = location;
   }
 
   public EventRequest(Event e) {
