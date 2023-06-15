@@ -2,6 +2,7 @@ package dk.jwillum.exambackend.service;
 
 import dk.jwillum.exambackend.dto.EventAttendeeRequest;
 import dk.jwillum.exambackend.dto.EventAttendeeResponse;
+import dk.jwillum.exambackend.dto.EventResponse;
 import dk.jwillum.exambackend.entity.Attendee;
 import dk.jwillum.exambackend.entity.Event;
 import dk.jwillum.exambackend.entity.EventAttendee;
@@ -74,4 +75,7 @@ public class EventAttendeeService {
     eventAttendeeRepository.deleteByAttendeeIdAndEventId(attendeeId, eventId);
   }
 
+  public List<EventAttendeeResponse> getAllEventAttendees() {
+    return eventAttendeeRepository.findAll().stream().map(eventAttendee -> new EventAttendeeResponse(eventAttendee, true)).toList();
+  }
 }

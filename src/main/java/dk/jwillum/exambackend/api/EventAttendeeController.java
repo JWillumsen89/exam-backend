@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/eventAttendees")
@@ -34,6 +36,11 @@ public class EventAttendeeController {
   @GetMapping("/attendees/{id}")
   Integer getNumberOfAttendees(@PathVariable int id) {
     return eventAttendeeService.getNumberOfAttendeesForEvent(id);
+  }
+
+  @GetMapping
+  List<EventAttendeeResponse> getAllEventAttendees() {
+    return eventAttendeeService.getAllEventAttendees();
   }
 
 }
